@@ -17,15 +17,15 @@ dependencies:
   clsx:
     specifier: ^2.1.0
     version: 2.1.0
-  lucide-react:
-    specifier: ^0.371.0
-    version: 0.371.0(react@18.2.0)
   react:
     specifier: ^18.2.0
     version: 18.2.0
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
+  react-icons:
+    specifier: ^5.1.0
+    version: 5.1.0(react@18.2.0)
   tailwind-merge:
     specifier: ^2.2.2
     version: 2.2.2
@@ -2204,14 +2204,6 @@ packages:
       yallist: 3.1.1
     dev: true
 
-  /lucide-react@0.371.0(react@18.2.0):
-    resolution: {integrity: sha512-FpUup3kaya7JpGHaoNYn1o0Z8IFvR9w4LeXr2ad20DTr3RFLBXD69bVXagV/I8yWyCJu3it1d1B3bNSa5ui4AA==}
-    peerDependencies:
-      react: ^16.5.1 || ^17.0.0 || ^18.0.0
-    dependencies:
-      react: 18.2.0
-    dev: false
-
   /merge2@1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
@@ -2511,6 +2503,14 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-icons@5.1.0(react@18.2.0):
+    resolution: {integrity: sha512-D3zug1270S4hbSlIRJ0CUS97QE1yNNKDjzQe3HqY0aefp2CBn9VgzgES27sRR2gOvFK+0CNx/BW0ggOESp6fqQ==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react-is@16.13.1:

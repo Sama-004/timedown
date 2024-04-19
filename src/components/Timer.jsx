@@ -1,8 +1,8 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import soundFile from "../../reminder.mp3";
 
 export default function Timer() {
   const [hour, setHour] = useState(0);
@@ -10,6 +10,21 @@ export default function Timer() {
   const [seconds, setSecond] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
 
+  const audioRef = useRef();
+
+  const playReminderSong = () => {
+    if (audioRef.current) {
+      audioRef.current.play();
+    } else {
+      console.error("Audio element not found!");
+    }
+  };
+  const handleCloseAlert = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+  };
   useEffect(() => {
     let timerId;
     if (timerRunning) {
@@ -18,7 +33,9 @@ export default function Timer() {
           if (minute === 0) {
             if (hour === 0) {
               clearInterval(timerId);
-              alert("Time's up");
+              playReminderSong(); // Play song when time completes
+              alert("Time up. Click on ok for the reminder to stop");
+              handleCloseAlert();
               setTimerRunning(false);
             } else {
               setHour(hour - 1);
@@ -37,18 +54,16 @@ export default function Timer() {
       clearInterval(timerId);
     }
     return () => clearInterval(timerId);
-  }, [hour, minute, seconds, timerRunning]);
+  }, [hour, minute, seconds, timerRunning, audioRef]);
 
   console.log(hour);
   console.log(minute);
   console.log(seconds);
-  // console.log(typeof hour);
-  // console.log(typeof minute);
-  // console.log(typeof seconds);
 
-  // Button Functions
-  const handlePauseTimer = () => {
-    setTimerRunning(false);
+  const handlePauseTimer = (e) => {
+    // setTimerRunning(false);
+    e.preventDefault();
+    setTimerRunning(!timerRunning);
   };
   const handleStartTimer = (e) => {
     e.preventDefault();
@@ -62,8 +77,9 @@ export default function Timer() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
-      <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">
+    <div className="flex flex-col items-center justify-center h-screen">
+      <audio ref={audioRef} src={soundFile} preload="auto" />
+      <div className="bg-gray-200 dark:bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold mb-4 text-center">Timer Countdown</h1>
         <form className="space-y-4">
           <div className="grid grid-cols-3 gap-2">
@@ -72,13 +88,7 @@ export default function Timer() {
                 setHour(parseInt(e.target.value));
               }}>
               <Label htmlFor="hours">Hours</Label>
-              <Input
-                defaultValue="0"
-                id="hours"
-                max="99"
-                min="0"
-                type="number"
-              />
+              <Input defaultValue="0" type="number" />
             </div>
             <div
               onChange={(e) => {
@@ -115,14 +125,26 @@ export default function Timer() {
         </form>
         <div className="mt-8 text-center">
           <div className="text-6xl font-bold text-primary">
-            <span id="timer-hours">00</span>:<span id="timer-minutes">00</span>:
-            {"\n                    "}
-            <span id="timer-seconds">00</span>
+            {hour < 10 ? (
+              <span id="timer-hours">0{hour}:</span>
+            ) : (
+              <span id="timer-hours">{hour}:</span>
+            )}
+            {minute < 10 ? (
+              <span id="timer-minutes">0{minute}:</span>
+            ) : (
+              <span id="timer-minutes">{minute}:</span>
+            )}
+            {seconds < 10 ? (
+              <span id="timer-seconds">0{seconds}</span>
+            ) : (
+              <span id="timer-seconds">{seconds}</span>
+            )}
           </div>
           <div className="mt-4">
             <div className="pause inline" onClick={handlePauseTimer}>
-              <Button className="mr-2" variant="outline">
-                Pause
+              <Button className="mr-2" variant="">
+                {timerRunning ? <h1>Pause</h1> : <h1>Play</h1>}
               </Button>
             </div>
             <div className="Reset inline" onClick={handleRestTimer}>
