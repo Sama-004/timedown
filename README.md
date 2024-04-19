@@ -1,3 +1,5 @@
 # TODO
-- [ ] Notification sound
-- [ ] User given time
+
+- [x] Notification sound
+- [x] User given time
+- [ ] Fix Input to only take Number
